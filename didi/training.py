@@ -23,7 +23,9 @@ print 'seg', krono.elapsed()
 X, y = readSamples("testset.mat")
 X = norm(X)
 print
-print 'testing train set...'
+print 'testing validation set...'
+X, y = readSamples("testset.mat")
+X = norm(X)
 test_trainset(nn_params, X, y, struc)
 
 print 'seg', krono.elapsed()

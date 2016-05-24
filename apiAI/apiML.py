@@ -56,27 +56,27 @@ def train(X, y, struc, nn_params, niters=50):
     t, j, i = fmincg.minimize(f, nn_params, maxIter=niters, verbose=False)
     nn_params = t
     return nn_params
-# 
-# def test_trainset_2(nn_params, X, y, struc):    
-#     p = predict(nn_params, X, struc)
-#     accuracy = np.mean(np.double(p == y)) * 100
-#     print 'test 2 Accuracy: %f'% accuracy, "%\n"
-# 
-# def test_trainset_3(nn_params, X, y, struc):    
-#     p = predict(nn_params, X, struc)
-#     s = bin_to_dec(p)
-#     g = bin_to_dec(y)
-#     b = np.mean(np.double(p == y)) * 100
-#     accuracy = np.mean(np.double(s == g)) * 100
-#     print 'test 3 Accuracy: %f'% accuracy, "%\n"
+
+def test_trainset_3(nn_params, X, y, struc):    
+    p = predict(nn_params, X, struc)
+    s = bin_to_dec(p)
+    g = bin_to_dec(y)
+    accuracy = np.mean(np.around(np.double(s == g),2)) * 100
+    print 'test 3 Accuracy: %f'% accuracy, "%\n"
 
 def test_trainset(nn_params, X, y, struc):    
     p = predict(nn_params, X, struc)
     s = bin_to_dec(p)
     g = bin_to_dec(y)
+    g = np.ma.array(g, mask=False)
+    s = np.ma.array(s, mask=False)
     g = g * 1.0
     a = np.where(g == 0)
-    g[a] = 0.1e300
+    # g[a] = 0.1e300
+    g.mask[a] = True
+    g = g.compressed()
+    s.mask[a] = True
+    s = s.compressed()
     r = np.mean(np.abs(g-s)/g)
     print 'Didi Score: %f\n'% r
 
