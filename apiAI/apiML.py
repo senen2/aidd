@@ -27,7 +27,7 @@ def saveSamples(filename, X, y):
 def dbmat(filename, db):
     X = []
     Y = []
-    rows = db.exe("select * from sets")
+    rows = db.exe("select * from sets4")
     for row in rows:
         x = eval(row['x'])
         y = eval(row['y'])
@@ -56,18 +56,19 @@ def train(X, y, struc, nn_params, niters=50):
     t, j, i = fmincg.minimize(f, nn_params, maxIter=niters, verbose=False)
     nn_params = t
     return nn_params
-
-def test_trainset_2(nn_params, X, y, struc):    
-    p = predict(nn_params, X, struc)
-    accuracy = np.mean(np.double(p == y)) * 100
-    print 'Accuracy: %f'% accuracy, "%\n"
-
-def test_trainset_3(nn_params, X, y, struc):    
-    p = predict(nn_params, X, struc)
-    s = bin_to_dec(p)
-    g = bin_to_dec(y)
-    accuracy = np.mean(np.double(s == g)) * 100
-    print 'test 3 Accuracy: %f'% accuracy, "%\n"
+# 
+# def test_trainset_2(nn_params, X, y, struc):    
+#     p = predict(nn_params, X, struc)
+#     accuracy = np.mean(np.double(p == y)) * 100
+#     print 'test 2 Accuracy: %f'% accuracy, "%\n"
+# 
+# def test_trainset_3(nn_params, X, y, struc):    
+#     p = predict(nn_params, X, struc)
+#     s = bin_to_dec(p)
+#     g = bin_to_dec(y)
+#     b = np.mean(np.double(p == y)) * 100
+#     accuracy = np.mean(np.double(s == g)) * 100
+#     print 'test 3 Accuracy: %f'% accuracy, "%\n"
 
 def test_trainset(nn_params, X, y, struc):    
     p = predict(nn_params, X, struc)
