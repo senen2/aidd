@@ -17,7 +17,7 @@ nn_params = riw(struc)
 
 krono = kronos.krono()
 print 'learning...'
-nn_params = train(X, y, struc, nn_params, 20)
+nn_params = train(X, y, struc, nn_params, 15)
 print 'seg', krono.elapsed()
 
 print
