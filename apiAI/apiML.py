@@ -79,6 +79,7 @@ def test_trainset(nn_params, X, y, struc):
     s = s.compressed()
     r = np.mean(np.abs(g-s)/g)
     print 'Didi Score: %f\n'% r
+    return r
 
 def test_one(nn_params, X, y, struc):    
     p = predictOne(nn_params, X, struc)
