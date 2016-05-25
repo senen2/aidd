@@ -103,6 +103,13 @@ def readweights(IDnet):
         n = np.array(map(float, ws))
         struc = eval(rows[0]["struct"])
         return n, struc
+        
+def saveScore(file_train,file_test,inputs,hiddens,epochs,score,seg):
+    db = DB("didi")
+    db.exe("""INSERT INTO score (file_train,file_test,inputs,hiddens,epochs,score,seg,DATETIME) 
+            VALUE ('%s', '%s', '%s', '%s', '%s', '%s', '%s', SYSDATE())""" % 
+            (file_train,file_test,inputs,hiddens,epochs,score,seg))
+    db.close()
 
 def randInitializeWeights(struc):
     epsilon_init = 0.12
