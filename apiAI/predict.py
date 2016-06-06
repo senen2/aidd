@@ -22,3 +22,12 @@ def predict(thetas, X, struc):
         c += 1
         
     return np.round(local['h'+ str(c)],0)
+
+def predict_linear(thetas,X):
+    try:
+        m,n = X.shape
+        X = np.hstack((np.ones((m,1)),X))
+    except:
+        m = len(X)
+        X = np.hstack((np.ones((m,1)), X.reshape(-1,1)))
+    return X.dot(thetas.conj().transpose())

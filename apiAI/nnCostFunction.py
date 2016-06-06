@@ -54,8 +54,8 @@ def nnCostFunction(thetas, X, y, struc, lambd=1.0, bias=1):
         
 
         local['s' + str(c)] = local['a'+ str(c)] - y
-        for i in range(1,(c-1)):
-            local['s' + str(c-1)] = ((local['s' + str(c)]).dot(local['Theta' + str(c-1)][:,1:])) * sigg.sigmoidGradient(local['z'+ str(c-1)])
+        for i in range(1,(c)):
+            local['s' + str(c-i)] = ((local['s' + str(c)]).dot(local['Theta' + str(c-1)][:,1:])) * sigg.sigmoidGradient(local['z'+ str(c-1)])
         for i in range(0,c-1):
             delta = (local['s' + str(c-i)].conj().transpose()).dot(local['a'+ str(c-(i+1))])
             r = (lambd / m) * local['theta' + str(c-(i+1))]

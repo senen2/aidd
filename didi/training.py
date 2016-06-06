@@ -20,7 +20,6 @@ X, y = readSamples(file_train)
 U = np.mean(X, axis=0)
 S = np.std(X, axis=0)
 X = (X - U)/S
-#X = norm(X)
 struc = [(hiddens,inputs + 1),(13,hiddens + 1)]
 nn_params = riw(struc)
 
@@ -32,9 +31,12 @@ print 'seg', krono.elapsed()
 print
 print 'testing validation set...'
 X, y = readSamples(file_test)
+districts = X[:,0]
 X = (X - U)/S
-#X = norm(X)
-score = test_trainset(nn_params, X, y, struc)
+score1 = test_trainset(nn_params, X, y, struc)
+score = test_trainset2(nn_params, X, y, struc,districts,66)
 seg = krono.elapsed()
-saveScore(file_train,file_test,inputs,hiddens,epochs,score,seg)
+saveScore(file_train,file_test,inputs,hiddens,epochs,score,seg,struc,nn_params)
 print 'seg', seg
+print "Didi Score(old):", score1
+print "Didi Score(fix):", score

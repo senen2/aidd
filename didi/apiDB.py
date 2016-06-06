@@ -12,6 +12,7 @@ class DB(object):
 #         self.db = mdb.connect(host="mysql.myprodu.com",user="carlos",passwd="siempre1",db=nombrebd)
 #         self.db = mdb.connect(host="mysql.gtienda.com",user="carlos",passwd="siempre1",db=nombrebd)
         self.db = mdb.connect(host="192.168.1.100",user="carlos",passwd="123",db=name)
+        # self.db = mdb.connect(host="192.168.1.109",user="carlos",passwd="123",db=name)
         self.c = self.db.cursor(mdb.cursors.DictCursor)
         
     def close(self):

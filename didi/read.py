@@ -35,6 +35,27 @@ def orders(dr, db):
                 """ % (district_id, dt[0], sl, answer))
         db.commit()
 
+def orders_full(dr, db):
+    # db.exe("lock tables orders_fullxx write")
+    db.exe("truncate table orders_fullxx")
+    names = [x for x in os.listdir(dr + "order_data/") if x[0]!="."]
+#     names = [names[0], names[1]]
+    for name in names:
+        rows = open(dr + "order_data/" + name, "r").readlines()
+#         rows = [rows[0], rows[1]]
+        for row in rows:
+            v = row.split("\t")
+            dt = v[6].split()
+            answer = 0 if v[1] == "NULL" else 1
+            sl = slot(dt[1])
+            #district_id = db.exe("select district_id from districts where district_hash='%s'" % v[3])[0]["district_id"]
+            db.exe("""
+                insert into orders_fullxx
+                (order_id, driver_id, passenger_id, start_district_hash, dest_district_hash, price, datetime, date, slot, answer) 
+                values ('%s', '%s', '%s','%s', '%s', '%s', '%s', '%s','%s','%s') 
+                """ % (v[0], v[1], v[2], v[3], v[4], v[5], v[6], dt[0], sl, answer))
+        db.commit()
+        
 def gaps(db):
     db.exe("""
         insert into gaps (district_id, date, slot, demand, supply)
@@ -44,7 +65,7 @@ def gaps(db):
         """)
 
 def weather(dr, db):
-    db.exe("lock tables weather write")
+    # db.exe("lock tables weather write")
     db.exe("truncate table weather")
     names = [x for x in os.listdir(dr + "weather_data/") if x[0]!="."]
 #     names = [names[0], names[1]]
@@ -66,14 +87,14 @@ def poilevels(db):
     db.exe("insert into poi_levels (level) select level from poi group by level")    
     
 def traffic(dr, db):
-    db.exe("lock tables traffic write, traffic_det write, districts read")
+    # db.exe("lock tables traffic write, traffic_det write, districts read")
     db.exe("truncate table traffic")
     db.exe("truncate table traffic_det")
     names = [x for x in os.listdir(dr + "traffic_data/") if x[0]!="."]
-#     names = [names[0], names[1]]
+    names = [names[0], names[1]]
     for name in names:
         rows = open(dr + "traffic_data/" + name, "r").readlines()
-#         rows = [rows[0], rows[1]]
+        rows = [rows[0], rows[1]]
         for row in rows:
             v = row.split("\t")
             district_hash = v[0]
@@ -101,14 +122,15 @@ def traffic(dr, db):
 
 if __name__ == '__main__': 
 #     db = DB("didi")
-    db = DB("diditest")
-#     dr = "C:/prog/didi/citydata/season_1/test_set_1/"
-#     dr = "C:/prog/didi/citydata/season_1/training_data/"
-    dr = "C:/prog/didi/citydata/season_1/test_set_1/"
+    db = DB("didi")
+    # dr = "C:/prog/didi/citydata/season_1/training_data/"
+    dr = "C:/temp/citydata/season_1/training_data/"
+    #dr = "C:/prog/didi/citydata/season_1/test_set_1/"
     #districts(dr,db)
     #weather(dr,db)
     #traffic(dr,db)    
-    orders(dr, db)
+    #orders(dr, db)
+    orders_full(dr, db)
     #gaps(db)
     #poilevels(db)
     db.exe("unlock tables")
