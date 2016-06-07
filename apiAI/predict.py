@@ -21,4 +21,13 @@ def predict(thetas, X, struc):
         local['h'+ str(c+1)] = sigmoid((np.hstack((np.ones((m,1)), local['h'+ str(c)]))).dot(theta.conj().transpose()))
         c += 1
         
-    return np.round(local['h'+ str(c)],0)
+    return local['h'+ str(c)]
+
+def predict_linear(thetas,X):
+    try:
+        m,n = X.shape
+        X = np.hstack((np.ones((m,1)),X))
+    except:
+        m = len(X)
+        X = np.hstack((np.ones((m,1)), X.reshape(-1,1)))
+    return X.dot(thetas.conj().transpose())
