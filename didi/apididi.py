@@ -20,6 +20,9 @@ def weekday(date):
     return datetime.strptime(date, "%Y-%m-%d").weekday() # 0 = monday
 
 def test(table, db):
+    return test_table(table, db)
+
+def test_table(table, db):
     db.exe("""
         CREATE temporary TABLE x2
         SELECT gaps.district_id, AVG(ABS(results.gap - gaps.gap) / gaps.gap) AS n, SUM(gaps.gap) AS gap, SUM(results.gap) AS s

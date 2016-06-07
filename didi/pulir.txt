@@ -1,6 +1,0 @@
-quitar primeros dias de enero 4
-
-hidden	epochs	seg		t3% 	didi
-25		15		77		91		0.97
-25		50		235		91		0.97
-35		15		108		91		0.98

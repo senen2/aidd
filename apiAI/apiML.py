@@ -6,7 +6,7 @@ machine learning related functions
 import numpy as np
 import scipy.io
 import scipy.linalg as linalg
-from predict import predict,predict_linear
+from predict import predict, predict_linear
 from predictOne import predict as predictOne
 from nnCostFunction import nnCostFunction
 from linearCostFunction import linearCostFunction
@@ -93,57 +93,14 @@ def test_trainset1(nn_params, X, y, struc):
     r = np.mean(np.abs(g-s)/g)
     return r
 
-def test_trainset2(nn_params, X, y, struc, group, ng):   
+def test_trainset2(nn_params, X, y, struc, ig, ng):    
     P = predict(nn_params, X, struc)
     S = bin_to_dec(P)
     G = bin_to_dec(y)
     nz = np.where(G > 0)
     S = S[nz]
     G = G[nz]
-    group = group[nz]
-
-    md = 0
-    for i in range(1, ng + 1):
-        d = np.where(group==i)
-        g = G[d]
-        s = S[d]
-        mean = np.mean( np.abs(g-s)/g )
-        md += mean
-    return md/ng
-
-def test_trainset3(nn_params, X, y, struc, group, ng):   
-    P = predict_linear(nn_params, X)
-    S = bin_to_dec(P)
-    G = y
-    plt.plot(S, '-', label="Pronosticated", color="red")
-    plt.plot(G, '-', label="real", color="blue")
-    plt.legend(loc='upper right', shadow=True, fontsize='large', numpoints=1)
-    plt.show()
-    nz = np.where(G > 0)
-    S = S[nz]
-    G = G[nz]
-    group = group[nz]
-
-    md = 0
-    for i in range(1, ng + 1):
-        d = np.where(group==i)
-        g = G[d]
-        s = S[d]
-        mean = np.mean( np.abs(g-s)/g )
-        md += mean
-    return md/ng
-
-def test_trainset4(nn_params, X, y, struc, group, ng):   
-    S = predict_linear(nn_params, X)
-    G = y
-    plt.plot(S, '-', label="Pronosticated", color="red")
-    plt.plot(G, '-', label="real", color="blue")
-    plt.legend(loc='upper right', shadow=True, fontsize='large', numpoints=1)
-    plt.show()
-    # nz = np.where(G > 0)
-    # S = S[nz]
-    # G = G[nz]
-    # group = group[nz]
+    group = X[:, ig][nz]
 
     md = 0
     for i in range(1, ng + 1):
@@ -219,8 +176,7 @@ def randInitializeWeights(struc):
         w = np.random.random((m2,n2)) * 2 * epsilon_init - epsilon_init
         W =  np.hstack((W.T.ravel(), w.T.ravel()))
     return W
-    
-def normalEquation(X,y):
+def normalEquation(X, y):
     try:
         m,n = X.shape
         X = np.hstack((np.ones((m,1)),X))
@@ -242,7 +198,7 @@ def train_linear(X, y, nn_params, niters=50):
     nn_params = t
     return nn_params
 
-def polynomial(X,expo):
+def polynomial(X, expo):
     try:
         m,n = X.shape
     except:
@@ -254,4 +210,4 @@ def polynomial(X,expo):
             x = np.hstack((x, (X ** i)))
             # x = np.hstack((x, (X ** i), 2 * X))
             # x = np.hstack((x, (X ** i), 2 * X,X * X))
-    return x
+    return x    
