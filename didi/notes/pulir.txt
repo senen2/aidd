@@ -1,0 +1,46 @@
+quitar primeros dias de enero 4
+
+hidden	epochs	seg		t3% 	didi
+25		15		77		0.97	trainset
+25		50		235		0.97	trainset
+35		15		108		0.98	trainset
+25		15		77		0.97	trainset4
+25		15		77		0.98	trainset100
+
+25		20		98		0.93	trainset100
+25		20		98		0.96	trainset100
+25		20		98		0.94	trainset100
+25		20		100		0.91	trainset100
+25		20		137		0.95	trainset100
+
+25		20		100		0.89	trainset100
+25		20		106		0.92	trainset100
+25		20		103		0.92	trainset100
+25		20		103		0.91	trainset100
+
+25		20		137		0.95	trainset100d3s3
+25		20		98		0.93	trainset100d3s3
+25		20		98		0.93	trainset100d3s3
+25		20		102		0.93	trainset100d3s3
+
+
+Disminuir o quitar facilities
+
+ver thetas
+
+agregar distrito de destino interno y externo
+
+comprimir poi en pocas salidas
+
+simulador de distritos o personas
+
+predecir demanda y oferta por separado
+
+falta dinero
+
+agregar promedios (dinero, dia y slot) por dia y slot
+
+agregar varios inputs para el slot y para el dia
+
+
+
