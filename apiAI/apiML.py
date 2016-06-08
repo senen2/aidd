@@ -9,8 +9,10 @@ import scipy.linalg as linalg
 from predict import predict, predict_linear
 from predictOne import predict as predictOne
 from nnCostFunction import nnCostFunction
+from linearCostFunction import linearCostFunction
 #from scipy.optimize import minimize
 import fmincg
+import matplotlib.pyplot as plt
 from apiDB import DB
 
 def readSamples(filename):
@@ -174,7 +176,6 @@ def randInitializeWeights(struc):
         w = np.random.random((m2,n2)) * 2 * epsilon_init - epsilon_init
         W =  np.hstack((W.T.ravel(), w.T.ravel()))
     return W
-
 def normalEquation(X, y):
     try:
         m,n = X.shape

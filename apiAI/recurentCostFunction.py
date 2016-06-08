@@ -10,22 +10,7 @@ def nnCostFunction(thetas, X, y, struc, lambd=1.0, bias=1):
     m,n = X.shape
     hidden = []
     t1 = 0
-    t2 = 0
-    
-#     try:
-#         my2, ny2 = y2.shape
-#     except:
-#         ny2 = 1
-#     
-#     if ny2 < 2:
-#         y = np.zeros((len(y2),y2.max()+1))
-#         for i in range(0,len(y2)):
-#             for ii in range(0,len(y[i])):
-#                 if y2[i] == ii:
-#                     y[i][ii] = 1
-#     else:
-#         y = y2
-        
+    t2 = 0    
     for i in range(0,len(struc)):
         m2 = struc[i][0]
         n2 = struc[i][1]
