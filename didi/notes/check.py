@@ -112,7 +112,7 @@ UPDATE districts
     INNER JOIN x2 ON x2.district_id=districts.district_id
 SET districts.drivers = x2.drivers, districts.answers = x2.answers
 -----------------------------------------------------------
-DROP TABLE x1;
+DROP TABLE if exists x1;
 CREATE TABLE x1 SELECT district_id, MIN(score) AS score FROM districts_score GROUP BY district_id;
 SELECT AVG(score) FROM x1;
 

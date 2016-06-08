@@ -152,8 +152,8 @@ def train_district(district_id, days_before, fungap, table_test_name, scene_id):
     save_l(district_id, 0)
     save_score(district_id, 1)
     print "train_district", district_id
-    for n in xrange(0, 20):
-        list_cases(district_id, table_results, table_source, table_test, days_before, fungap, 50)
+    for n in xrange(1, 21):
+        list_cases(district_id, table_results, table_source, table_test, days_before, fungap, 50*n)
         clean_case(district_id, table_results, table_source, table_test, days_before, fungap)
 
     score = testdist(table_results, table_test)# 0.47167 es con 1, 0.471369268265    

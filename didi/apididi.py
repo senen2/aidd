@@ -81,8 +81,16 @@ def save_send(filename, db):
         f.write("%s,%s-%s,%s\n" % (row["district_id"], row["date"], row["slot"], row["gap"]))
     f.close()
 
-# ---------------------------
+def create_test_full(db):
+    db.exe("truncate table results_full")
+    rows = db.exe("select district_id, date from diditest.gaps group by district_id, date")
+    for row in rows:
+        for i in range(144):
+            db.exe("insert into results_full (district_id, date, slot) values (%s, '%s', %s)" 
+                    % (row["district_id"], row["date"], i+1))
+        db.commit()
 
+# ---------------------------
     
 def getdsg(table, district_id, date, db):
     return getdsgsql("select slot, gap, demand, supply from %s where district_id=%s and date='%s' order by slot"
