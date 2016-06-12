@@ -4,6 +4,26 @@ Created on 05/06/2016
 @author: botpi
 '''
 
+def save_case_gap(district_id, data):
+    with open("txt/case_gap_"+ str(district_id) + ".txt", "w") as f:
+        c = 0
+        for d in data:
+            if c == len(data)-1:
+                f.write(str(d))
+            else:
+                f.write(str(d)+",")
+                c += 1
+    f.close()
+
+def read_case_gap(district_id):
+    f = open("txt/case_gap_"+ str(district_id) + ".txt", "rb")
+    data = f.read().split(",")
+    f.close()
+    if data == ['']:
+        return []
+    else:
+        return [int(x) for x in data]
+
 def save_case(district_id, data):
     with open("txt/case_"+ str(district_id) + ".txt", "w") as f:
         c = 0
@@ -48,6 +68,17 @@ def save_l(district_id, score):
 
 def read_l(district_id):
     f = open("txt/l_"+ str(district_id) + ".txt", "rb")
+    data = f.read()
+    f.close()
+    return int(data)
+
+def save_l_2(district_id, score):
+    f = open("txt/l_2_"+ str(district_id) + ".txt", "w")
+    f.write(str(score))
+    f.close()
+
+def read_l_2(district_id):
+    f = open("txt/l_2_"+ str(district_id) + ".txt", "rb")
     data = f.read()
     f.close()
     return int(data)
