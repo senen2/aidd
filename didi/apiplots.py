@@ -40,6 +40,14 @@ def getacum(table, district_id, date, db):
     return getacumsql("select slot, gap, demand, supply from %s where district_id=%s and date='%s' order by slot"
                         % (table, district_id, date), db)
     
+def getdsg_round(table, district_id, date, k, db):
+    return getdsgsql("""
+            select slot, round(gap/%s,0)*%s as gap, round(demand/%s,0)*%s as demand, round(supply/%s,0)*%s as supply 
+            from %s where 
+            district_id=%s and date='%s' order by slot
+            """ % (k, k, k, k, k, k, table, district_id, date), db)
+
+    
 def getdsgsql(sql, db):    
     rows = db.exe(sql)
     t = [r["slot"] for r in rows]

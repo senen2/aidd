@@ -3,6 +3,9 @@ Created on 20/05/2016
 
 @author: botpi
 '''
+import sys
+sys.path.insert(0, '../apiAI')
+sys.path.insert(0, '../')
 from apiDB import *
 from apididi import *
 import os
@@ -37,11 +40,11 @@ def orders(dr, db):
 
 def orders_full(dr, db):
     #db.exe("lock tables orders_fullxx write")
-    db.exe("truncate table orders")
+    db.exe("truncate table orders_fully")
     names = [x for x in os.listdir(dr + "order_data/") if x[0]!="."]
     # names = [names[0], names[1]]
     for name in names:
-        db.exe("truncate table orders_fully")
+        # db.exe("truncate table orders_fully")
         rows = open(dr + "order_data/" + name, "r").readlines()
         # rows = [rows[0], rows[1]]
         for row in rows:
@@ -133,10 +136,11 @@ def traffic(dr, db):
     
 
 if __name__ == '__main__': 
+    print "begin"
 #     db = DB("didi")
-    db = DB("didi")
-    dr = "C:/prog/didi/citydata/season_1/training_data/"
-    #dr = "C:/prog/didi/citydata/season_1/test_set_1/"
+    db = DB("diditest2")
+    #dr = "C:/prog/didi/citydata/season_1/training_data/"
+    dr = "C:/prog/didi/citydata2/season_2/test_set_2/"
     #districts(dr,db)
     #weather(dr,db)
     #traffic(dr,db)    

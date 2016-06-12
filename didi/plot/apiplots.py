@@ -49,3 +49,7 @@ def plotpred(p, tit, color, dlabel):
     plt.ylabel('orders')
     plt.title(tit)    
     plt.legend(loc='upper left', shadow=True, fontsize='large', numpoints=1)
+
+def plot_constant(constant, rep, symbol, label="constant", color="blak"):
+    x = np.array(range(1, rep + 1))
+    plt.plot(x, np.array([constant] * rep), '-', label=label, color=color)

@@ -117,7 +117,9 @@ CREATE TABLE x1 SELECT district_id, MIN(score) AS score FROM districts_score GRO
 SELECT AVG(score) FROM x1;
 
 ----------------------------------------------------
-
+SELECT AVG(score) FROM
+    (SELECT district_id, MIN(score) AS score FROM districts_score GROUP BY district_id) AS t1
+-------------------------------------------------------
 
 
 '''

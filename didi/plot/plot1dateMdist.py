@@ -18,7 +18,7 @@ db = DB("didi")
 date = "2016-01-08"
 x = formatplot("date %s" % date)
 district_id = 51
-for i in range(51, 52):
+for i in range(2, 3):
     #d, s, g = getdsg("results", i,date, db)
     d, s, g = getdsg("gaps", i,date, db)
 

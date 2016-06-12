@@ -27,7 +27,7 @@ def test_table(table, db):
         CREATE temporary TABLE x2
         SELECT gaps.district_id, AVG(ABS(results.gap - gaps.gap) / gaps.gap) AS n, SUM(gaps.gap) AS gap, SUM(results.gap) AS s
         FROM %s as results
-        INNER JOIN diditest.gaps AS gaps 
+        INNER JOIN diditest2.gaps AS gaps 
             ON gaps.district_id=results.district_id
             AND gaps.date=results.date
             AND gaps.slot=results.slot
@@ -53,7 +53,7 @@ def testdist(table, district_id, db):
 def before(district_id, date, slot, db):
     rows= db.exe("""
             select demand, supply, slot 
-            from diditest.gaps 
+            from diditest2.gaps 
             where district_id=%s and date='%s' and slot<%s 
             order by slot desc limit 1"""
             % (district_id, date, slot))
@@ -66,7 +66,7 @@ def create_test(db):
     rows = db.exe("select * from results_send")
     db.exe("truncate table results_test")
     for row in rows:
-        yes = before(row["district_id"], row["date"], row["slot"])
+        yes = before(row["district_id"], row["date"], row["slot"], db)
         if yes:
             db.exe("""
                 insert into results_test (district_id, date, slot)
@@ -93,7 +93,7 @@ def create_test_full(db):
 # ---------------------------
     
 def getdsg(table, district_id, date, db):
-    return getdsgsql("select slot, gap, demand, supply from %s where district_id=%s and date='%s' order by slot"
+    return getdsgsql("select slot, round(gap/100,0)*100 as gap, round(demand/100,0)*100 as demand, round(supply/100,0)*100 as supply from %s where district_id=%s and date='%s' order by slot"
                     % (table, district_id, date), db)
     
 def getacum(table, district_id, date, db):
@@ -143,20 +143,6 @@ def getacumsql(sql, db):
             sz.append(s[k])
             gz.append(g[k])
         else:
-#             if j==1:
-#                 dz.append(d[1])
-#                 sz.append(s[1])
-#                 gz.append(g[1])
-#             elif j>len(d)-1:
-#                 dz.append(d[-1])
-#             elif j>len(s)-1:
-#                 sz.append(s[-1])
-#             elif j>len(g)-1:
-#                 gz.append(g[-1])
-#             else:
-#                 dz.append(dz[-1])
-#                 sz.append(sz[-1])
-#                 gz.append(gz[-1])
 
             dz.append(0)
             sz.append(0)
@@ -179,3 +165,35 @@ def getacumsql(sql, db):
     g = np.array(gz)
     
     return d, s, g
+
+def getjam(district_id, date, level, db):
+    return getjamsql("""
+        SELECT slot, COUNT/10 as n FROM traffic
+            INNER JOIN traffic_det ON traffic_det.traffic_id=traffic.id
+        WHERE district_id=%s AND DATE='%s' AND LEVEL=%s    
+        """ % (district_id, date, level), db)
+
+def getjamsql(sql, db):    
+    rows = db.exe(sql)
+    t = [r["slot"] for r in rows]
+    jam = [r["n"] for r in rows]
+    
+    jz=[]
+    for j in range(1,145):
+        if j in t:
+            jz.append(jam[t.index(j)])
+        else:
+            jz.append(0)
+    
+    return np.array(jz)
+
+def getsql(sql, field, db):
+    rows = db.exe(sql)
+    return np.array([x[field] for x in rows])
+
+# ----------------------------------------------------
+
+def score_supply_table(district_id, date, limit, db):
+    score = db.exe("SELECT AVG(ABS(gap - IF(demand-%s>0,demand-%s,1))/gap) AS n WHERE district_id=%s AND DATE='%s'"
+            % (limit, limit, district_id, date))
+    return score[0]["n"]    
