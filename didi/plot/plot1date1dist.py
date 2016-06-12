@@ -28,6 +28,12 @@ plt.plot(x, d, '-', label="demand", color="green")
 plt.plot(x, s, '-', label="supply", color="blue")
 plt.plot(x, g, '-', label="gap", color="red")
 
+d, s, g = getdsg_round("gaps", district_id, date, 200, db)
+
+plt.plot(x, d, '-', label="demand", color="green")
+plt.plot(x, s, '--', label="supply", color="blue")
+plt.plot(x, g, '-', label="gap", color="red")
+
 plt.legend(loc='upper left', shadow=True, fontsize='large', numpoints=1)
 plt.show()
 

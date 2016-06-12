@@ -57,3 +57,5 @@ cuando se llega a ese limite en la siguiente baja
 pero en la siguiente sube otra vez porque hay mas demanda disponible
 
 distribucion horaria
+
+2016-06-10  score enviado 0.360096954176 results11

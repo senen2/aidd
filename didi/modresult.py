@@ -32,7 +32,7 @@ def test_table_district(table, district_id, db):
     rows = db.exe("""
         SELECT AVG(ABS(results.gap - gaps.gap) / gaps.gap) AS a
         FROM %s as results
-        INNER JOIN diditest.gaps AS gaps 
+        INNER JOIN diditest2.gaps AS gaps 
             ON gaps.district_id=results.district_id
             AND gaps.date=results.date
             AND gaps.slot=results.slot
@@ -52,4 +52,5 @@ def best_case(district_id, db):
     cases = eval(best["cases"])
     fungap = best["fungap"]
     table_test_name = best["table_test"]
-    return days_before, cases, fungap, table_test_name
+    table_source_name = best["table_source"]
+    return days_before, cases, fungap, table_test_name, table_source_name
